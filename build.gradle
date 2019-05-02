@@ -15,10 +15,12 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'com.google.zxing:javase:3.3.0'
     testCompile 'org.reflections:reflections:0.9.10'
+    testCompile 'org.testfx:testfx-core:4.0.15-alpha'
+    testCompile 'org.testfx:testfx-junit:4.0.15-alpha'
 }
 
-sourceCompatibility = 7
-targetCompatibility = 7
+sourceCompatibility = 8
+targetCompatibility = 8
 
 // When using JDK8+ as the primary JDK, JDK7 should be installed as a secondary JDK to compile
 // against (to make sure that we're not inadvertently using newer APIs), and the JDK7_HOME
