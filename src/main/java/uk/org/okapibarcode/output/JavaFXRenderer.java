@@ -19,6 +19,7 @@ import static uk.org.okapibarcode.backend.HumanReadableAlignment.JUSTIFY;
 
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
+import java.util.List;
 
 import javafx.geometry.Bounds;
 import javafx.scene.canvas.GraphicsContext;
@@ -130,12 +131,16 @@ public class JavaFXRenderer implements SymbolRenderer {
       context.fillPolygon(xPoints, yPoints, nPoints);
     }
 
-    for (int i = 0; i < symbol.getTarget().size(); i++) {
-      Ellipse2D.Double ellipse = adjust(symbol.getTarget().get(i), magnification, marginX, marginY);
-      context.setFill((i & 1) == 0 ? ink : paper);
-      context.fillOval(ellipse.x, ellipse.y, ellipse.width, ellipse.height);
+    List< Ellipse2D.Double > target = symbol.getTarget();
+    for (int i = 0; i + 1 < target.size(); i += 2) {
+        Ellipse2D.Double outer = adjust(target.get(i), magnification, marginX, marginY);
+        Ellipse2D.Double inner = adjust(target.get(i + 1), magnification, marginX, marginY);
+        double lineWidth = (outer.width - inner.width) / 2;
+        context.setLineWidth(lineWidth);
+        context.setFill(paper);
+        context.setStroke(ink);
+        context.strokeOval(inner.x - (lineWidth / 2), inner.y - (lineWidth / 2), inner.width + lineWidth, inner.height + lineWidth);
     }
-
     context.restore();
   }
 
